@@ -1,16 +1,13 @@
 import { Message } from "node-telegram-bot-api";
 import { bot } from "../index.js";
 import { byeText, haloText } from "../keyword.js";
-import { HandlerCatetan } from "./Catetan/index.js";
+import { checkIsOwner } from "../utils/isBotOwner.js";
 
 export const MessageHandler = (msg: Message) => {
-  const { OWNER } = process.env;
   const chatId = msg.chat.id;
   const text = msg.text;
 
-  if (OWNER !== chatId.toString()) {
-    bot.sendMessage(chatId, "ga blh msk! 😜");
-  }
+  checkIsOwner(chatId);
 
   switch (true) {
     case byeText.includes(text):
@@ -25,6 +22,4 @@ export const MessageHandler = (msg: Message) => {
     default:
       break;
   }
-
-  HandlerCatetan(chatId);
 };
